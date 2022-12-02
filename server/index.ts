@@ -26,6 +26,7 @@ io.on('connection', socket => {
 
     if(readyPlayerCount === 2){
       // broadcast start game event!
+      io.emit('startGame',socket.id)
     }
   })
 });
