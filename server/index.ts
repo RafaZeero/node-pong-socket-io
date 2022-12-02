@@ -25,7 +25,8 @@ io.on('connection', socket => {
 
     readyPlayerCount++
 
-    if (readyPlayerCount === 2) {
+    // always start gane when two players are online
+    if (readyPlayerCount % 2 === 0) {
       // broadcast start game event!
       io.emit('startGame', socket.id)
     }
