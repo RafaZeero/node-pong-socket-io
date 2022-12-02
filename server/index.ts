@@ -13,9 +13,21 @@ const io = new Server(httpServer, {
   }
 });
 
+let readyPlayerCount = 0
+
 //  Socket.io connection response
 io.on('connection', socket => {
   console.log('a user connected', socket.id);
+
+  socket.on('ready',()=>{
+    console.log('Player ready', socket.id)
+
+    readyPlayerCount++
+
+    if(readyPlayerCount === 2){
+      // broadcast start game event!
+    }
+  })
 });
 
 // Running server
