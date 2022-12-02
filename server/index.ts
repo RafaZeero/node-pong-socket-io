@@ -19,15 +19,21 @@ let readyPlayerCount = 0
 io.on('connection', socket => {
   console.log('a user connected', socket.id);
 
-  socket.on('ready',()=>{
+  // listening to "ready" event
+  socket.on('ready', () => {
     console.log('Player ready', socket.id)
 
     readyPlayerCount++
 
-    if(readyPlayerCount === 2){
+    if (readyPlayerCount === 2) {
       // broadcast start game event!
-      io.emit('startGame',socket.id)
+      io.emit('startGame', socket.id)
     }
+  })
+
+  // listening to "paddleMove" event
+  socket.on('paddleMove', (paddleData) => {
+    socket.broadcast.emit('paddleMove', paddleData)
   })
 });
 

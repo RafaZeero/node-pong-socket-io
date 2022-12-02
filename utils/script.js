@@ -181,6 +181,10 @@ function startGame(){
     if (paddleX[paddleIndex] > width - paddleWidth) {
       paddleX[paddleIndex] = width - paddleWidth;
     }
+    // emit paddle movement so others players
+    socket.emit('paddleMove',{
+      xPosition: paddleX[paddleIndex]
+    })
     // Hide Cursor
     canvas.style.cursor = 'none';
   });
@@ -199,4 +203,10 @@ socket.on('startGame',(refereeId)=>{
 
   isReferee = socket.id === refereeId
   startGame()
+})
+
+socket.on('paddleMove', (paddleData)=>{
+  // Toggle 1 into 0, and 0 into 1
+  const opponentPaddleIndex = 1 - paddleIndex
+  paddleX[opponentPaddleIndex] = paddleData.xPosition
 })
