@@ -90,6 +90,13 @@ function ballReset() {
   ballX = width / 2;
   ballY = height / 2;
   speedY = 3;
+
+  // Reset ball movement for both players
+  socket.emit('ballMove',{
+    ballX,
+    ballY,
+    score
+  })
 }
 
 // Adjust Ball Movement
@@ -100,6 +107,13 @@ function ballMove() {
   if (playerMoved) {
     ballX += speedX;
   }
+
+  // emit ball movement to both players
+  socket.emit('ballMove',{
+    ballX,
+    ballY,
+    score
+  })
 }
 
 // Determine What Ball Bounces Off, Score Points, Reset Ball
@@ -155,10 +169,13 @@ function ballBoundaries() {
 
 // Called Every Frame
 function animate() {
-  ballMove();
+  // update ball movement based on only one player
+  if(isReferee){
+    ballMove();
+    ballBoundaries();
+  }
 
   renderCanvas();
-  ballBoundaries();
   window.requestAnimationFrame(animate);
 }
 
@@ -209,4 +226,9 @@ socket.on('paddleMove', (paddleData)=>{
   // Toggle 1 into 0, and 0 into 1
   const opponentPaddleIndex = 1 - paddleIndex
   paddleX[opponentPaddleIndex] = paddleData.xPosition
+})
+
+socket.on('ballMove',(ballData)=>{
+  // define ball positions
+  ({ballX, ballY, score} = ballData)
 })

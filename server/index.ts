@@ -35,6 +35,11 @@ io.on('connection', socket => {
   socket.on('paddleMove', (paddleData) => {
     socket.broadcast.emit('paddleMove', paddleData)
   })
+
+  // listening to "ballMove" event
+  socket.on('ballMove', (ballData) => {
+    socket.broadcast.emit('ballMove', ballData)
+  })
 });
 
 // Running server
