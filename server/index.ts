@@ -1,9 +1,10 @@
 import { createServer } from 'http';
 import { Server } from 'socket.io';
+import { api } from './api';
 
 // Define constants
 const PORT = 3000 as const;
-const httpServer = createServer();
+const httpServer = createServer(api);
 
 // Create Socket.io server with
 const io = new Server(httpServer, {
