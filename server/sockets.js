@@ -1,5 +1,3 @@
-import { Server } from 'socket.io';
-
 let readyPlayerCount = 0;
 
 export function listen(io) {
